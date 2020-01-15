@@ -1,0 +1,6 @@
+000001	Adam	1995-09-07	adam@gmail.com	Computer Science	3.2
+000002	Betty	1997-08-26	betty@gmail.com	Economics	3.5
+000003	Carl	2000-10-31	carl@gmail.com	Baking	2.6
+000004	Devon	2001-06-15	devon@gmail.com	Computer Science	2.8
+000005	Ethan	2001-12-20	ethan@gmail.com	Finance	3.4
+000006	Ferb	1997-05-27	ferb@gmail.com	Engineering	3.9
