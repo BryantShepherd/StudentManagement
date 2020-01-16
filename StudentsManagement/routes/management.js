@@ -24,7 +24,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-var id, name, birth, email, major, gpa;
+let id, name, birth, email, major, gpa;
 router.post('/', (req, res, next) => {
     // TODO: check for null values
     id = randomstring.generate({
@@ -43,9 +43,6 @@ router.post('/', (req, res, next) => {
     });
     res.json(req.body);
 });
-
-
-
 
 // TODO: delete student
 

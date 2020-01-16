@@ -1,0 +1,19 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    title Register
+    style
+        include ../public/stylesheets/style.css
+h1 Register
+form(action="http://127.0.0.1:5000/register" method="post")
+    .form-field
+        label
+            input(type='text' name='username' placeholder='username')
+    .form-field
+        label
+            input(type='password' name='password')
+    .form-field
+        label
+            input(type='password' name='retypePassword')
+    .form-field
+        input(type='submit' value='Sign up')

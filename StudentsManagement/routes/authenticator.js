@@ -13,23 +13,25 @@ const connection = mysql.createConnection({
 
 let username, password;
 
-// TODO: add login/home page
 router.post('/', (req, res, next) => {
     username = req.body.username;
     password = req.body.password;
     let sqlSearchQuery = `SELECT * FROM ${TABLE} WHERE username = "${username}"`;
-
     connection.query(sqlSearchQuery, (error, result) => {
         if (error) throw error;
         if (result.length === 0) {
-            res.render('login');
+            res.redirect('/login');
         } else {
             if (bcrypt.compareSync(password, result[0].password)) {
-                res.redirect('/')
+                res.redirect('/');
             }
-            else res.redirect('login');
+            else res.redirect('/login');
         }
     });
+});
+
+router.get('/', (req, res, next) => {
+    res.render('login');
 });
 
 module.exports = router;

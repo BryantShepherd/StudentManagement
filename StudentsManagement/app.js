@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const authentication = require('./routes/authenticator');
 const studentManagement = require('./routes/management');
-
+const registration = require('./routes/registration');
 const app = express();
 // Body Parser
 app.use(express.json());
@@ -15,9 +15,11 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Authenticate user's login
-app.use('/authenticate', authentication);
+app.use('/login', authentication);
 
 app.use('/students', studentManagement);
+
+app.use('/register', registration);
 
 app.get('/', (req, res) => {
   res.render('home', {students: []});

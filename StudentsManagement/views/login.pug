@@ -2,9 +2,10 @@ doctype html
 head
     meta(charset='UTF-8')
     title Login
-    link(rel='stylesheet' href='./stylesheets/style.css')
+    style
+        include ../public/stylesheets/style.css
 h1 Login
-form
+form(action="http://127.0.0.1:5000/login" method="post")
     .form-field
         label
             input(type='text' name='username' placeholder='username')
