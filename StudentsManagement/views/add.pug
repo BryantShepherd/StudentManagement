@@ -1,0 +1,24 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    title Login
+    link(rel='stylesheet' href='./stylesheets/style.css')
+body
+    form(action="http://127.0.0.1:5000/students" method="post")
+        .form-field
+            label Name
+            input(type="text" name="name" required)
+        .form-field
+            label Birth Date
+            input(type="date" name="birth" required)
+        .form-field
+            label Email
+            input(type="email" name="email")
+        .form-field
+            label Major
+            input(type="text" name="major")
+        .form-field
+            label GPA
+            input(type="text" name="gpa")
+        .form-field
+            input(type="submit" value="Add")

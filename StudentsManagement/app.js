@@ -1,11 +1,15 @@
 const express = require('express');
 const path = require('path');
-const authentication = require('./authenticator');
+const authentication = require('./routes/authenticator');
+const studentManagement = require('./routes/management');
 
 const app = express();
 // Body Parser
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+app.set('views', './views');
+app.set('view engine', 'pug');
 
 // Serve static page
 app.use(express.static(path.join(__dirname, 'public')));
@@ -13,9 +17,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Authenticate user's login
 app.use('/authenticate', authentication);
 
+app.use('/students', studentManagement);
 
-
-
+app.get('/', (req, res) => {
+  res.render('home', {students: []});
+});
 
 // Establish connection
 const PORT = process.env.port || 5000;

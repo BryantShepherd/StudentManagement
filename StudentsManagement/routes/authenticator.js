@@ -22,12 +22,12 @@ router.post('/', (req, res, next) => {
     connection.query(sqlSearchQuery, (error, result) => {
         if (error) throw error;
         if (result.length === 0) {
-            res.redirect('/login.html');
+            res.render('login');
         } else {
             if (bcrypt.compareSync(password, result[0].password)) {
-                res.redirect('/home.html');
+                res.redirect('/')
             }
-            else res.redirect('/login.html');
+            else res.redirect('login');
         }
     });
 });
