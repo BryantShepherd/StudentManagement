@@ -1,0 +1,34 @@
+doctype html
+head
+    meta(charset='UTF-8')
+    title Update
+    style
+        include ../public/stylesheets/style.css
+body
+    form(action="http://127.0.0.1:5000/students/update" method="post")
+        .form-field
+            label ID
+            br
+            input(type="text" name="id" value=students[0].id readonly=true)
+        .form-field
+            label Name
+            br
+            input(type="text" name="name" value=students[0].name required)
+        .form-field
+            label Birth Date
+            br
+            input(type="date" name="birth" value=students[0].birth required)
+        .form-field
+            label Email
+            br
+            input(type="email" name="email" value=students[0].email)
+        .form-field
+            label Major
+            br
+            input(type="text" name="major" value=students[0].major)
+        .form-field
+            label GPA
+            br
+            input(type="text" name="gpa" value=students[0].gpa)
+        .form-field
+            input(type="submit" value="Update")
