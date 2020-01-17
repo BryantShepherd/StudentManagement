@@ -9,7 +9,7 @@ table {
     margin: 0;
     padding: 0;
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
 }
 
 table caption {
@@ -92,8 +92,22 @@ table th {
 
 .update {
     background-color: #018786;
+    cursor: pointer;
+}
+
+.delete {
+    background-color: red;
+    cursor: pointer;
 }
 
 a {
     text-decoration: none;
+}
+
+#add-btn {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 100px;
+    height: 60px;
 }

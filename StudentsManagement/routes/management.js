@@ -24,7 +24,11 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/add', (req, res) => {
+    res.render('add');
+});
+
+router.get('/update/:id', (req, res) => {
     sqlQuery = "SELECT * FROM students";
     sqlQuery += ` WHERE id = ${req.params.id}`;
     connection.query(sqlQuery, (err, result) => {
@@ -33,6 +37,18 @@ router.get('/:id', (req, res) => {
         // TODO: handle error if no result (even though if the id doesn't exist, we wouldn't be able to find anyone)
         res.render('update', {students : result})
     });
+});
+
+router.get('/delete/:id', (req, res) => {
+    sqlQuery = `DELETE FROM students WHERE id="${req.params.id}"`;
+    connection.query(sqlQuery, (err, result) => {
+        if (err) {
+            console.error(err);
+        } else {
+            console.log(result);
+        }
+        res.redirect('/');
+    })
 });
 
 let id, name, birth, email, major, gpa;
@@ -51,8 +67,8 @@ router.post('/', (req, res, next) => {
     connection.query(sqlQuery, (err, result) => {
         if (err) throw err;
         console.log("Insert Success");
+        res.redirect('/students');
     });
-    res.json(req.body);
 });
 
 router.post('/update', (req, res) => {

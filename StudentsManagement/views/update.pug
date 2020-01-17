@@ -17,7 +17,7 @@ body
         .form-field
             label Birth Date
             br
-            input(type="date" name="birth" value=students[0].birth required)
+            input(type="date" name="birth" value=students[0].birth.toISOString().slice(0, 10) required)
         .form-field
             label Email
             br

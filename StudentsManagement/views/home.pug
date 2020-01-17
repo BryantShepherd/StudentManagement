@@ -21,16 +21,20 @@ body
                 th major
                 th gpa
                 th
+                th
         tbody
         each student in students
             tr
                 td= student.id
                 td= student.name
-                td= student.birth
+                td= student.birth.toISOString().slice(0, 10)
                 td= student.email
                 td= student.major
                 td= student.gpa
                 td(class="update")
-                    a(href="#") Update
+                    a Update
+                td(class="delete")
+                    a Delete
+    button(id="add-btn" onclick="window.location.href='http://127.0.0.1:5000/students/add'") Add Student
     script
         include ../public/javascripts/home.js

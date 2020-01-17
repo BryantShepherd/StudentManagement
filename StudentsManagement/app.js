@@ -22,7 +22,7 @@ app.use('/students', studentManagement);
 app.use('/register', registration);
 
 app.get('/', (req, res) => {
-  res.render('home', {students: []});
+  res.redirect('/students');
 });
 
 // Establish connection
