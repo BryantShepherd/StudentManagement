@@ -10,11 +10,6 @@ function errorHandler(error) {
 let students;
 router.get('/', async (req, res, next) => {
     let studentPromise = sqlConnect.Students.query();
-    // if (req.query.id) students = await sqlConnect.Students.query()
-    //     .where('id', req.query.id)
-    //     .orWhere('name', req.query.id) // TODO: format string for easier search (nvm because mysql is case-insensitive)
-    //     .catch(errorHandler);
-    // else students = await sqlConnect.Students.query().catch(errorHandler);
 
     if (req.query.id) studentPromise = studentPromise
         .where('id', req.query.id)

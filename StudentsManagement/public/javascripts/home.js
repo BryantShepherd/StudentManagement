@@ -15,9 +15,17 @@ deleteBtns.forEach((item, index) => {
 });
 
 let orderByBtns = document.querySelectorAll(".order-by-btn");
+let currentURL = new URL(window.location.href);
+let search_params = new URLSearchParams(currentURL.search);
+console.log(search_params.get('orderby'));
 orderByBtns.forEach((item, index) => {
     item.addEventListener('click', () => {
         let orderBy = item.innerHTML;
-        window.location.replace(`http://127.0.0.1:5000/students/?orderby=${orderBy}`);
+        if (search_params.get('orderby')) search_params.set('orderby', orderBy);
+        else search_params.append('orderby', orderBy);
+
+        currentURL.search = search_params.toString();
+        let newURL = currentURL.toString();
+        window.location.replace(newURL);
     });
 });
