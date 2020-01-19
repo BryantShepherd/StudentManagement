@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const sqlConnect = require('./sqlConnect');
 
 let newUsername, password;
-// TODO: check if user already exists
 
 router.get('/', (req, res) => {
     res.render('register');

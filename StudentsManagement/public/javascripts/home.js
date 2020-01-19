@@ -13,3 +13,11 @@ deleteBtns.forEach((item, index) => {
         window.location.replace(`http://127.0.0.1:5000/students/delete/${studentID}`)
     });
 });
+
+let orderByBtns = document.querySelectorAll(".order-by-btn");
+orderByBtns.forEach((item, index) => {
+    item.addEventListener('click', () => {
+        let orderBy = item.innerHTML;
+        window.location.replace(`http://127.0.0.1:5000/students/?orderby=${orderBy}`);
+    });
+});
