@@ -1,6 +1,6 @@
 const express = require('express');
 const mysql = require('mysql');
-const TABLE = "students_info";
+const sqlConnect = require('./sqlConnect');
 const router = express.Router();
 const randomstring = require('randomstring');
 
@@ -13,72 +13,56 @@ const connection = mysql.createConnection({
 
 let sqlQuery;
 
-router.get('/', (req, res, next) => {
-    // TODO: show all students
-    sqlQuery = "SELECT * FROM students";
-    if (req.query.id) sqlQuery += ` WHERE id = ${req.query.id}`;
-    connection.query(sqlQuery, (err, result) => {
-        if (err) throw err;
-        // console.log(result);
-        res.render('home', {students : result})
-    });
+function errorHandler(error) {
+    console.error(error);
+}
+router.get('/', async (req, res, next) => {
+    let students;
+    if (req.query.id) students = await sqlConnect.Students.query().where('id', req.query.id).catch(errorHandler);
+    else students = await sqlConnect.Students.query().catch(errorHandler);
+    res.render('home', {students: students});
 });
 
 router.get('/add', (req, res) => {
     res.render('add');
 });
 
-router.get('/update/:id', (req, res) => {
-    sqlQuery = "SELECT * FROM students";
-    sqlQuery += ` WHERE id = ${req.params.id}`;
-    connection.query(sqlQuery, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        // TODO: handle error if no result (even though if the id doesn't exist, we wouldn't be able to find anyone)
-        res.render('update', {students : result})
-    });
+router.get('/update/:id', async (req, res) => {
+    let students = await sqlConnect.Students.query().where('id', req.params.id).catch(errorHandler);
+    res.render('update', {students : students})
 });
 
-router.get('/delete/:id', (req, res) => {
-    sqlQuery = `DELETE FROM students WHERE id="${req.params.id}"`;
-    connection.query(sqlQuery, (err, result) => {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log(result);
-        }
-        res.redirect('/');
-    })
+router.get('/delete/:id', async (req, res) => {
+    await sqlConnect.Students.query().delete().where('id', req.params.id);
+    res.redirect('/students');
 });
 
-let id, name, birth, email, major, gpa;
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res) => {
     // TODO: check for null values
-    id = randomstring.generate({
-        length: 6,
-        charset: 'numeric'
-    });
-    name = req.body.name;
-    birth = req.body.birth;
-    email = req.body.email;
-    major = req.body.major;
-    gpa = req.body.gpa;
-    sqlQuery = `INSERT INTO students VALUES ("${id}", "${name}", "${birth}", "${email}", "${major}", ${gpa})`;
-    connection.query(sqlQuery, (err, result) => {
-        if (err) throw err;
-        console.log("Insert Success");
-        res.redirect('/students');
-    });
+    await sqlConnect.Students.query().insert({
+        id: randomstring.generate({
+            length: 6,
+            charset: 'numeric'
+        }),
+        name: req.body.name,
+        birth: req.body.birth,
+        email: req.body.email,
+        major: req.body.major,
+        gpa: req.body.gpa
+    }).catch(errorHandler);
+    res.redirect('/students');
 });
 
-router.post('/update', (req, res) => {
-    console.log("Putting");
-    sqlQuery = `UPDATE students set name="${req.body.name}", birth="${req.body.birth}", email="${req.body.email}", major="${req.body.major}", gpa=${req.body.gpa} WHERE id="${req.body.id}"`;
-    connection.query(sqlQuery, (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.redirect('/');
-    });
+router.post('/update', async (req, res) => {
+    await sqlConnect.Students.query().update({
+        name: req.body.name,
+        birth: req.body.birth,
+        email: req.body.email,
+        major: req.body.major,
+        gpa: req.body.gpa
+    }).where('id', req.body.id)
+        .catch(errorHandler);
+    res.redirect('/students');
 });
 
 // TODO: delete student
