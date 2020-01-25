@@ -15,6 +15,8 @@ router.get('/', async (req, res, next) => {
         .where('id', req.query.id)
         .orWhere('name', req.query.id);
     if (req.query.orderby) studentPromise = studentPromise.orderBy(req.query.orderby);
+    if (req.query.limit) studentPromise = studentPromise.limit(req.query.limit);
+    if (req.query.offset) studentPromise = studentPromise.offset(req.query.offset);
 
     students = await studentPromise.catch(errorHandler);
     await res.json(students);
