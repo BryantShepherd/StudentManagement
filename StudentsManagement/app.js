@@ -19,11 +19,9 @@ app.use('/login', authentication);
 
 app.use('/students', studentManagement);
 
-app.use('/register', registration);
-
-app.get('/', (req, res) => {
-  res.redirect('/students');
-});
+// app.get('/', (req, res) => {
+//   res.redirect('/students');
+// });
 
 // Establish connection
 const PORT = process.env.port || 5000;

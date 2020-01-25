@@ -17,24 +17,10 @@ router.get('/', async (req, res, next) => {
     if (req.query.orderby) studentPromise = studentPromise.orderBy(req.query.orderby);
 
     students = await studentPromise.catch(errorHandler);
-    res.render('home', {students: students});
+    await res.json(students);
 });
 
-router.get('/add', (req, res) => {
-    res.render('add');
-});
-
-router.get('/update/:id', async (req, res) => {
-    let students = await sqlConnect.Students.query().where('id', req.params.id).catch(errorHandler);
-    res.render('update', {students : students})
-});
-
-router.get('/delete/:id', async (req, res) => {
-    await sqlConnect.Students.query().delete().where('id', req.params.id);
-    res.redirect('/students');
-});
-
-router.post('/add', async (req, res) => {
+router.post('/', async (req, res) => {
     await sqlConnect.Students.query().insert({
         id: randomstring.generate({
             length: 6,
@@ -49,17 +35,21 @@ router.post('/add', async (req, res) => {
     res.redirect('/students');
 });
 
-router.post('/update', async (req, res) => {
+router.put('/:id', async (req, res) => {
     await sqlConnect.Students.query().update({
         name: req.body.name,
         birth: req.body.birth,
         email: req.body.email,
         major: req.body.major,
         gpa: req.body.gpa
-    }).where('id', req.body.id)
+    }).where('id', req.params.id)
         .catch(errorHandler);
     res.redirect('/students');
 });
 
+router.delete('/:id', async (req, res) => {
+    await sqlConnect.Students.query().delete().where('id', req.params.id);
+    res.redirect('/students');
+});
 
 module.exports = router;
