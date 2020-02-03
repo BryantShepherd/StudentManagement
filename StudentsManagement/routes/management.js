@@ -46,12 +46,12 @@ router.put('/:id', async (req, res) => {
         gpa: req.body.gpa
     }).where('id', req.params.id)
         .catch(errorHandler);
-    res.redirect('/students');
+    res.end('Student Updated.');
 });
 
 router.delete('/:id', async (req, res) => {
     await sqlConnect.Students.query().delete().where('id', req.params.id);
-    res.redirect('/students');
+    res.end('Student Deleted');
 });
 
 module.exports = router;
