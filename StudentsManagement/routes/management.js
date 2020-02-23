@@ -8,21 +8,21 @@ function errorHandler(error) {
 }
 
 let students;
-router.get('/', async (req, res, next) => {
+router.get('/get', async (req, res, next) => {
     let studentPromise = sqlConnect.Students.query();
 
     if (req.query.id) studentPromise = studentPromise
         .where('id', req.query.id)
         .orWhere('name', req.query.id);
     if (req.query.orderby) studentPromise = studentPromise.orderBy(req.query.orderby);
-    if (req.query.limit) studentPromise = studentPromise.limit(req.query.limit);
-    if (req.query.offset) studentPromise = studentPromise.offset(req.query.offset);
+    if (req.query.page && req.query.pagesize) studentPromise = studentPromise.page(req.query.page - 1, req.query.pagesize);
 
     students = await studentPromise.catch(errorHandler);
+    if (req.query.pagesize) students.numberOfPages = Math.ceil(students.total / req.query.pagesize);
     await res.json(students);
 });
 
-router.post('/', async (req, res) => {
+router.post('/add', async (req, res) => {
     await sqlConnect.Students.query().insert({
         id: randomstring.generate({
             length: 6,
@@ -34,10 +34,10 @@ router.post('/', async (req, res) => {
         major: req.body.major,
         gpa: req.body.gpa
     }).catch(errorHandler);
-    res.redirect('/students');
+    res.end('Student added.');
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/update/:id', async (req, res) => {
     await sqlConnect.Students.query().update({
         name: req.body.name,
         birth: req.body.birth,
@@ -49,8 +49,8 @@ router.put('/:id', async (req, res) => {
     res.end('Student Updated.');
 });
 
-router.delete('/:id', async (req, res) => {
-    await sqlConnect.Students.query().delete().where('id', req.params.id);
+router.delete('/delete/:id', async (req, res) => {
+    await sqlConnect.Students.query().deleteById(req.params.id);
     res.end('Student Deleted');
 });
 

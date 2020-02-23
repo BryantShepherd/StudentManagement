@@ -15,13 +15,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-// Set view engine
-app.set('views', './views');
-app.set('view engine', 'pug');
-
-// Serve static page
-app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/students', studentManagement);
 
 // Establish connection
