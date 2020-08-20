@@ -16,7 +16,7 @@
     "randomstring": "^1.1.5"
   },
   "devDependencies": {
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "objection": "^2.1.2"
   }
 }
